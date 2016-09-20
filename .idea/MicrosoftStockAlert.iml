@@ -56,5 +56,6 @@
     <orderEntry type="library" name="Maven: org.jacoco:org.jacoco.core:0.7.5.201505241946" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-debug-all:5.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.jacoco:org.jacoco.report:0.7.5.201505241946" level="project" />
+    <orderEntry type="library" name="Maven: com.yahoofinance-api:YahooFinanceAPI:3.5.0" level="project" />
   </component>
 </module>
