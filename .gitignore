@@ -1,2 +1,10 @@
 target
 .idea
+.settings
+*.log
+*.iml
+.classpath
+.project
+*.rej
+.metadata
+activemq-data

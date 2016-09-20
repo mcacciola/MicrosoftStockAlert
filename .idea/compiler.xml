@@ -22,11 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="StockAlert" />
+        <module name="stock-alert" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="MicrosoftStockAlert" target="1.5" />
+      <module name="stock-alert" target="1.5" />
       <module name="StockAlert" target="1.5" />
     </bytecodeTargetLevel>
   </component>
