@@ -4,7 +4,6 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * Created by f563oyy on 9/20/2016.
@@ -12,9 +11,12 @@ import java.math.BigDecimal;
 public class StockAlert {
     private static boolean alarmSet;
 
-    public static BigDecimal getStockQuote() throws IOException {
+    public static double getStockQuote() throws IOException {
         Stock stock = YahooFinance.get("MSFT");
-        BigDecimal price = stock.getQuote().getPrice();
+        double price = stock.getQuote().getPrice().doubleValue();
+        if(stock.getQuote().getChangeInPercent().doubleValue() > 20){
+            alarmSet = true;
+        }
         return price;
     }
 
