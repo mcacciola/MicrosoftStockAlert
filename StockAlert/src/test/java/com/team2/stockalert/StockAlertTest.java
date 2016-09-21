@@ -2,6 +2,8 @@ package com.team2.stockalert;
 
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -13,8 +15,9 @@ public class StockAlertTest {
     }
 
     @Test
-    public void stockQuoteReturnsStockValue(){
-        assertNotEquals(0, StockAlert.getStockQuote());
+    public void stockQuoteReturnsStockValue() throws IOException {
+        assertNotEquals(0.00, StockAlert.getStockQuote());
     }
+
 
 }
