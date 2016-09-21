@@ -17,4 +17,8 @@ public class StockAlert {
         BigDecimal price = stock.getQuote().getPrice();
         return price;
     }
+
+    public static boolean isAlarmSet() {
+        return alarmSet;
+    }
 }

@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -19,5 +20,10 @@ public class StockAlertTest {
         assertNotEquals(0.00, StockAlert.getStockQuote());
     }
 
+
+    @Test
+    public void stockAlertsTraderIfBelow20Percent(){
+        assertTrue(StockAlert.isAlarmSet());
+    }
 
 }
