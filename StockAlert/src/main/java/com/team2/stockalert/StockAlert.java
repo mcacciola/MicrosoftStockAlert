@@ -5,6 +5,6 @@ package com.team2.stockalert;
  */
 public class StockAlert {
     public static int getStockQuote() {
-        return 53;
+        return 0;
     }
 }

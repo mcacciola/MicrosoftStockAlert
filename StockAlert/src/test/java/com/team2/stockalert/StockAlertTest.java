@@ -3,6 +3,7 @@ package com.team2.stockalert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class StockAlertTest {
 
@@ -12,8 +13,8 @@ public class StockAlertTest {
     }
 
     @Test
-    public void stockQuoteIs53(){
-        assertEquals(53, StockAlert.getStockQuote());
+    public void stockQuoteReturnsStockValue(){
+        assertNotEquals(0, StockAlert.getStockQuote());
     }
 
 }
