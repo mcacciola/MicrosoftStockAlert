@@ -24,8 +24,13 @@ public class StockAlertTest {
     }
 
     @Test
-    public void stockAlertsTraderIfBelow20Percent(){
-        assertTrue(StockAlert.isAlarmSet());
+    public void time(){
+        System.out.println(StockAlert.time());
     }
+
+//    @Test
+//    public void stockAlertsTraderIfBelow20Percent(){
+//        assertTrue(StockAlert.isAlarmSet());
+//    }
 
 }

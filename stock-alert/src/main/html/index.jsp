@@ -1,8 +1,9 @@
+<%@ page import="com.team2.stockalert.StockAlert" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Microsoft Stock</title></head>
+    <title>This is a local liberty server</title>
+  </head>
 <body>
 
 <table border="0">
@@ -12,8 +13,8 @@
         <th><b>Difference</b></th>
     </tr>
     <tr>
-        <td>12:00</td>
-        <td>53.00</td>
+        <td><% out.print(StockAlert.time()); %></td>
+        <td><% out.print(StockAlert.getStockQuote()); %></td>
         <td>0.00%</td>
     </tr>
 </table>

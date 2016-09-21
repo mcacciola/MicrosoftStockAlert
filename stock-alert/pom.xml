@@ -10,6 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>Stock Alert</name>
+    <dependencies>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.7</version>
+        </dependency>
+    </dependencies>
     <artifactId>stock-alert</artifactId>
     <packaging>war</packaging>
 
@@ -29,7 +36,7 @@
                             </goals>
                             <configuration>
                                 <overwrite>true</overwrite>
-                                <outputDirectory>${project.build.directory}/roman-war-${project.version}/
+                                <outputDirectory>${project.build.directory}/stock-alert-${project.version}/
                                 </outputDirectory>
                                 <resources>
                                     <resource>
