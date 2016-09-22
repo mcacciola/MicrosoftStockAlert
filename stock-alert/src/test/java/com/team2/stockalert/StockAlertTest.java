@@ -7,7 +7,6 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class StockAlertTest {
-
     @Test
     public void canCreateStockAlert(){
         assertEquals(StockAlert.class, new StockAlert().getClass());
@@ -19,11 +18,6 @@ public class StockAlertTest {
     }
 
     @Test
-    public void stockDontAlertsTraderIfAbove20Percent(){
-        assertFalse(StockAlert.isAlarmSet());
-    }
-
-    @Test
     public void testGetCurrentTimeReturnsTime() {
         StockAlert.setTime("12:01");
         assertEquals("12:01", StockAlert.getCurrentTime());
@@ -31,15 +25,13 @@ public class StockAlertTest {
 
     @Test
     public void percentChangeCalculationTest() throws IOException {
-        double stockDiffOne = StockAlert.getStockQuoteNow() / StockAlert.getStockQuoteYesterday();
-        double stockDiffTwo = StockAlert.getStockQuoteYesterday() / StockAlert.getStockQuoteNow();
-
+        assertEquals(40.0, StockAlert.getPercentageDifference(50.0, 75.0), .1);
     }
 
-//    @Test
-//    public void stockAlertsTraderIfBelow20Percent(){
-//        assertTrue(StockAlert.isAlarmSet());
-//    }
+    @Test
+    public void stockAlertsTraderIfBelow20Percent(){
+        assertTrue(StockAlert.isAlarmSet());
+    }
 
 
 }

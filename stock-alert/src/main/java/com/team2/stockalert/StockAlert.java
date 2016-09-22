@@ -17,6 +17,7 @@ import java.util.List;
 public class StockAlert {
     private static boolean alarmSet;
     private static Date dateTime;
+    private static Stock currentStock;
 
     public static String getCurrentTime() {
 
@@ -29,12 +30,20 @@ public class StockAlert {
     }
 
     public static double getStockQuoteNow() throws IOException {
-        Stock stock = YahooFinance.get("MSFT");
-        double price = stock.getQuote().getPrice().doubleValue();
-        if (calculateDifference(stock)) {
+        currentStock  = YahooFinance.get("MSFT");
+        double price = getCurrentStockPrice();
+        setAlarmIfPercentDifferenceGreaterThan20(price);
+        return price;
+    }
+
+    private static double getCurrentStockPrice() {
+        return currentStock.getQuote().getPrice().doubleValue();
+    }
+
+    private static void setAlarmIfPercentDifferenceGreaterThan20(double price) throws IOException {
+        if (getPercentageDifference(price, getStockQuoteYesterday()) > 20.0) {
             alarmSet = true;
         }
-        return price;
     }
 
     public static double getStockQuoteYesterday() throws IOException {
@@ -81,7 +90,7 @@ public class StockAlert {
         return Integer.parseInt(interval);
     }
 
-    public static boolean calculateDifference(Stock stock) {
-        return stock.getQuote().getChangeInPercent().doubleValue() > 20;
+    public static double getPercentageDifference(double stock1, double stock2) {
+        return Math.abs(stock1 - stock2) / ( (stock1 + stock2) /2 ) * 100;
     }
 }
