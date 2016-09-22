@@ -2,18 +2,18 @@ package com.team2.stockalert;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.HistoricalQuote;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by f563oyy on 9/20/2016.
- */
+
 public class StockAlert {
     private static boolean alarmSet;
     private static Date dateTime;
@@ -28,13 +28,23 @@ public class StockAlert {
 
     }
 
-    public static double getStockQuote() throws IOException {
+    public static double getStockQuoteNow() throws IOException {
         Stock stock = YahooFinance.get("MSFT");
         double price = stock.getQuote().getPrice().doubleValue();
-        if (stock.getQuote().getChangeInPercent().doubleValue() > 20) {
+        if (calculateDifference(stock)) {
             alarmSet = true;
         }
         return price;
+    }
+
+    public static double getStockQuoteYesterday() throws IOException {
+        Calendar c1 = new GregorianCalendar();
+        c1.add(Calendar.DAY_OF_YEAR, -1);
+
+        Stock microStock = YahooFinance.get("MSFT");
+        List<HistoricalQuote>  quoteList = microStock.getHistory(c1, c1);
+
+        return quoteList.get(quoteList.size()-1).getClose().doubleValue();
     }
 
     public static boolean isAlarmSet() {
@@ -69,5 +79,9 @@ public class StockAlert {
 
     private static int toInt(String interval) {
         return Integer.parseInt(interval);
+    }
+
+    public static boolean calculateDifference(Stock stock) {
+        return stock.getQuote().getChangeInPercent().doubleValue() > 20;
     }
 }

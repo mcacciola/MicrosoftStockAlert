@@ -15,7 +15,7 @@ public class StockAlertTest {
 
     @Test
     public void stockQuoteReturnsStockValue() throws IOException {
-        assertNotEquals(0.00, StockAlert.getStockQuote());
+        assertNotEquals(0.00, StockAlert.getStockQuoteNow());
     }
 
     @Test
@@ -24,9 +24,16 @@ public class StockAlertTest {
     }
 
     @Test
-    public void testGetCurrentTimeReturnsTime(){
+    public void testGetCurrentTimeReturnsTime() {
         StockAlert.setTime("12:01");
         assertEquals("12:01", StockAlert.getCurrentTime());
+    }
+
+    @Test
+    public void percentChangeCalculationTest() throws IOException {
+        double stockDiffOne = StockAlert.getStockQuoteNow() / StockAlert.getStockQuoteYesterday();
+        double stockDiffTwo = StockAlert.getStockQuoteYesterday() / StockAlert.getStockQuoteNow();
+
     }
 
 //    @Test
