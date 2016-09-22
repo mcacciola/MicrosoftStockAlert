@@ -1,5 +1,6 @@
 package com.team2.stockalert;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -7,30 +8,40 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class StockAlertTest {
+
+    private StockAlert stockAlert;
+
+    @Before
+    public void setup() throws IOException {
+        stockAlert = new StockAlert();
+    }
+
     @Test
-    public void canCreateStockAlert(){
+    public void canCreateStockAlert() throws IOException {
         assertEquals(StockAlert.class, new StockAlert().getClass());
     }
 
     @Test
     public void stockQuoteReturnsStockValue() throws IOException {
-        assertNotEquals(0.00, StockAlert.getStockQuoteNow());
+        assertNotEquals(0.00, stockAlert.getStockQuoteNow());
     }
 
     @Test
     public void testGetCurrentTimeReturnsTime() {
-        StockAlert.setTime("12:01");
-        assertEquals("12:01", StockAlert.getCurrentTime());
+        stockAlert.setTime("12:01");
+        assertEquals("12:01", stockAlert.getCurrentTime());
     }
 
     @Test
     public void percentChangeCalculationTest() throws IOException {
-        assertEquals(40.0, StockAlert.getPercentageDifference(50.0, 75.0), .1);
+        assertEquals(40.0, stockAlert.getPercentageDifference(50.0, 75.0), .1);
     }
 
     @Test
-    public void stockAlertsTraderIfBelow20Percent(){
-        assertTrue(StockAlert.isAlarmSet());
+    public void stockAlertsTraderIfAbove20Percent() throws IOException {
+        stockAlert.setCurrentStockPrice(500.00);
+        stockAlert.getStockQuoteNow();
+        assertTrue(stockAlert.isAlarmSet());
     }
 
 
