@@ -7,13 +7,10 @@ import yahoofinance.quotes.stock.StockQuote;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 
 public class StockAlert {
@@ -21,18 +18,17 @@ public class StockAlert {
     private Date dateTime;
     private StockQuote currentStockQuote;
     private Stock currentStock;
+    private DateFormat dateFormat;
 
     public StockAlert() throws IOException {
         currentStock = YahooFinance.get("MSFT");
         currentStockQuote = currentStock.getQuote();
+        dateTime = new Date();
     }
 
     public String getCurrentTime() {
-        DateFormat df = new SimpleDateFormat("hh:mm");
-        if (dateTime == null) {
-            dateTime = new Date();
-        }
-        return df.format(dateTime);
+        dateFormat = new SimpleDateFormat("hh:mm");
+        return dateFormat.format(dateTime);
 
     }
 
@@ -43,7 +39,7 @@ public class StockAlert {
     }
 
     private double getCurrentStockPrice() {
-        return currentStockQuote.getPrice().doubleValue();
+        return roundDoubleToTwoDecimals(currentStockQuote.getPrice().doubleValue());
     }
 
     private void setAlarmIfPercentDifferenceGreaterThan20(double price) throws IOException {
@@ -56,10 +52,9 @@ public class StockAlert {
         Calendar c1 = new GregorianCalendar();
         c1.add(Calendar.DAY_OF_YEAR, -1);
 
-
         List<HistoricalQuote>  quoteList = currentStock.getHistory(c1, c1);
-
-        return quoteList.get(quoteList.size()-1).getClose().doubleValue();
+        double yesterdaysPrice = quoteList.get(quoteList.size() - 1).getClose().doubleValue();
+        return roundDoubleToTwoDecimals(yesterdaysPrice);
     }
 
     public boolean isAlarmSet() {
@@ -70,6 +65,15 @@ public class StockAlert {
         List<Integer> timeArray = getTimeArray(newTime);
         Calendar cal = setCalendarTime(timeArray);
         dateTime = cal.getTime();
+    }
+
+    public double getPercentageDifference(double stock1, double stock2) {
+        double percentDifference = Math.abs(stock1 - stock2) / ( (stock1 + stock2) /2 ) * 100;
+        return roundDoubleToTwoDecimals(percentDifference);
+    }
+
+    public void setCurrentStockPrice(double stockPrice) {
+        currentStockQuote.setPrice(BigDecimal.valueOf(stockPrice));
     }
 
     private Calendar setCalendarTime(List<Integer> timeArray) {
@@ -96,11 +100,8 @@ public class StockAlert {
         return Integer.parseInt(interval);
     }
 
-    public double getPercentageDifference(double stock1, double stock2) {
-        return Math.abs(stock1 - stock2) / ( (stock1 + stock2) /2 ) * 100;
+    private double roundDoubleToTwoDecimals(double percentDifference) {
+        return new BigDecimal(percentDifference).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
-    public void setCurrentStockPrice(double stockPrice) {
-        currentStockQuote.setPrice(BigDecimal.valueOf(stockPrice));
-    }
 }
