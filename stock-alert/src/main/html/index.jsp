@@ -5,6 +5,7 @@
     <title>This is a local liberty server</title>
   </head>
 <body>
+<% response.setIntHeader("Refresh", 300); %>
 
 <table border="0">
     <tr>
@@ -14,7 +15,7 @@
     </tr>
     <tr>
         <td><% out.print(StockAlert.getCurrentTime()); %></td>
-        <td><% out.print(StockAlert.getStockQuote()); %></td>
+        <td><% out.print(StockAlert.getStockQuoteNow()); %></td>
         <td>0.00%</td>
     </tr>
 </table>
