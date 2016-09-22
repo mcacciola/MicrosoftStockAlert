@@ -13,7 +13,7 @@
         <th><b>Difference</b></th>
     </tr>
     <tr>
-        <td><% out.print(StockAlert.time()); %></td>
+        <td><% out.print(StockAlert.getCurrentTime()); %></td>
         <td><% out.print(StockAlert.getStockQuote()); %></td>
         <td>0.00%</td>
     </tr>

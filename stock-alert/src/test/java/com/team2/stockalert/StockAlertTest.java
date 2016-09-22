@@ -24,13 +24,15 @@ public class StockAlertTest {
     }
 
     @Test
-    public void time(){
-        System.out.println(StockAlert.time());
+    public void testGetCurrentTimeReturnsTime(){
+        StockAlert.setTime("12:01");
+        assertEquals("12:01", StockAlert.getCurrentTime());
     }
 
 //    @Test
 //    public void stockAlertsTraderIfBelow20Percent(){
 //        assertTrue(StockAlert.isAlarmSet());
 //    }
+
 
 }
