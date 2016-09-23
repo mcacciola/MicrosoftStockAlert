@@ -12,7 +12,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-
 public class StockAlert {
     private boolean alarmSet;
     private Date dateTime;
@@ -60,6 +59,8 @@ public class StockAlert {
     public boolean isAlarmSet() {
         return alarmSet;
     }
+
+    public void setAlarm(boolean alarmSet) { this.alarmSet = alarmSet; }
 
     public void setTime(String newTime) {
         List<Integer> timeArray = getTimeArray(newTime);
