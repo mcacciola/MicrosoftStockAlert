@@ -2,10 +2,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%StockAlert stock = new StockAlert();
- stock.setCurrentStockPrice(0.0);
+
  String currentTime = stock.getCurrentTime();
- double stockQuote = stock.getStockQuoteNow();
- double percent = stock.getPercentageDifference(stock.getStockQuoteNow(), stock.getStockQuoteYesterday());
+ String stockQuote = stock.getStockQuoteNow();
+ double percent = stock.getPercentageDifferenceAsString(stockQuote, stock.getStockQuoteYesterday());
  %>
 <head>
     <title>This is a local liberty server</title>

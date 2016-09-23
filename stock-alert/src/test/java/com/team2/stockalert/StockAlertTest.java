@@ -40,12 +40,22 @@ public class StockAlertTest {
 
     @Test
     public void negativePercentChangeCalculationTest() throws IOException {
-        assertEquals(-40.0, stockAlert.getPercentageDifference(50.0, 75.0), .1);
+        assertEquals(-40.0, stockAlert.getPercentageDifferenceAsDouble(50.00, 75.0), .1);
     }
 
     @Test
     public void positivePercentChangeCalculationTest() throws IOException {
-        assertEquals(40.0, stockAlert.getPercentageDifference(75.0, 50.0), .1);
+        assertEquals(40.0, stockAlert.getPercentageDifferenceAsDouble(75.00, 50.0), .1);
+    }
+
+    @Test
+    public void negativePercentChangeWithStringTest() throws IOException {
+        assertEquals(-40.0, stockAlert.getPercentageDifferenceAsString("50.00", 75.0), .1);
+    }
+
+    @Test
+    public void positivePercentChangeWithStringTest() throws IOException {
+        assertEquals(40.0, stockAlert.getPercentageDifferenceAsString("75.00", 50.0), .1);
     }
 
     @Test

@@ -39,8 +39,7 @@ public class StockAlert {
 
     private String getValueRounded2AsString(double value) {
         double roundedValue = roundDoubleToTwoDecimals(value);
-        String s = String.valueOf(roundedValue);
-        String[] valueArray = s.split("\\.");
+        String[] valueArray = String.valueOf(roundedValue).split("\\.");
         return buildValueRounded2String(valueArray);
     }
 
@@ -65,25 +64,35 @@ public class StockAlert {
     }
 
     private void setAlarmIfPercentDifferenceLessThanNegative19(double price) throws IOException {
-        if (getPercentageDifference(price, getStockQuoteYesterday()) <= -20.0) {
+        if (getPercentageDifferenceAsDouble(price, getStockQuoteYesterday()) <= -20.0) {
             alarmSet = true;
         }
     }
 
     public double getStockQuoteYesterday() throws IOException {
+        Calendar yesterday = getYesterday();
+        List<HistoricalQuote>  quoteList = getYesterdaysQuoteList(yesterday);
+        return roundDoubleToTwoDecimals(getYesterdaysPrice(quoteList));
+    }
+
+    private List<HistoricalQuote> getYesterdaysQuoteList(Calendar yesterday) throws IOException {
+        return currentStock.getHistory(yesterday, yesterday);
+    }
+
+    private Calendar getYesterday() {
         Calendar c1 = new GregorianCalendar();
         c1.add(Calendar.DAY_OF_YEAR, -1);
+        return c1;
+    }
 
-        List<HistoricalQuote>  quoteList = currentStock.getHistory(c1, c1);
-        double yesterdaysPrice = quoteList.get(quoteList.size() - 1).getClose().doubleValue();
-        return roundDoubleToTwoDecimals(yesterdaysPrice);
+    private double getYesterdaysPrice(List<HistoricalQuote> quoteList) {
+        return quoteList.get(quoteList.size() - 1).getClose().doubleValue();
     }
 
     public boolean isAlarmSet() {
         return alarmSet;
     }
 
-    public void setAlarm(boolean alarmSet) { this.alarmSet = alarmSet; }
 
     public void setTime(String newTime) {
         List<Integer> timeArray = getTimeArray(newTime);
@@ -91,8 +100,15 @@ public class StockAlert {
         dateTime = cal.getTime();
     }
 
-    public double getPercentageDifference(double stock1, double stock2) {
+    public double getPercentageDifferenceAsDouble(double stock1, double stock2) {
         double percentDifference = (stock1 - stock2) / ( (stock1 + stock2) /2 ) * 100;
+        return roundDoubleToTwoDecimals(percentDifference);
+
+    }
+
+    public double getPercentageDifferenceAsString(String value1, double value2) {
+        double value = Double.parseDouble(value1);
+        double percentDifference = (value - value2) / ( (value + value2) /2 ) * 100;
         return roundDoubleToTwoDecimals(percentDifference);
 
     }
@@ -129,9 +145,4 @@ public class StockAlert {
     private double roundDoubleToTwoDecimals(double percentDifference) {
         return new BigDecimal(percentDifference).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
-
-//    private void playAlarm() {
-//        Clip clip = AudioSystem.getClip();
-//        AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream())
-//    }
 }
