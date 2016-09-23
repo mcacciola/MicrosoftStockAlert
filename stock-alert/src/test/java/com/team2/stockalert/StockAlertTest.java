@@ -23,7 +23,13 @@ public class StockAlertTest {
 
     @Test
     public void stockQuoteReturnsStockValue() throws IOException {
-        assertNotEquals(0.00, stockAlert.getStockQuoteNow());
+        assertNotEquals("0.00", stockAlert.getStockQuoteNow());
+    }
+
+    @Test
+    public void stockQuoteReturns0dot00IfStockValueIs0dot00() throws IOException {
+        stockAlert.setCurrentStockPrice(0.00);
+        assertEquals("0.00", stockAlert.getStockQuoteNow());
     }
 
     @Test

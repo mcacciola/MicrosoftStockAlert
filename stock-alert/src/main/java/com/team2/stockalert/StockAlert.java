@@ -32,13 +32,33 @@ public class StockAlert {
 
     }
 
-    public double getStockQuoteNow() throws IOException {
+    public String getStockQuoteNow() throws IOException {
         double price = getCurrentStockPrice();
         setAlarmIfPercentDifferenceLessThanNegative19(price);
-        if(alarmSet){
-            //playAlarm();
+        return getValueRounded2AsString(price);
+    }
+
+    private String getValueRounded2AsString(double value) {
+        double roundedValue = roundDoubleToTwoDecimals(value);
+        String s = String.valueOf(roundedValue);
+        String[] valueArray = s.split("\\.");
+        return buildValueRounded2String(valueArray);
+    }
+
+    private String buildValueRounded2String(String[] valueArray) {
+        return valueArray[0] + "." + buildValueAfterDecimalRounded2(valueArray[1]);
+    }
+
+    private String buildValueAfterDecimalRounded2(String number) {
+        String postDecimalValue = number;
+        if(isCentValueLength1(number)){
+            postDecimalValue += "0";
         }
-        return price;
+        return postDecimalValue;
+    }
+
+    private boolean isCentValueLength1(String centValue) {
+        return centValue.length() == 1;
     }
 
     private double getCurrentStockPrice() {
@@ -71,21 +91,11 @@ public class StockAlert {
     }
 
     public double getPercentageDifference(double stock1, double stock2) {
-        double percentDifference = Math.abs(stock1 - stock2) / ( (stock1 + stock2) /2 ) * 100;
-        if(isCurrentStockPriceLowerThanYesterdayClose(stock1, stock2)){
-            percentDifference = showNegativePercentDifference(percentDifference);
-        }
+        double percentDifference = (stock1 - stock2) / ( (stock1 + stock2) /2 ) * 100;
         return roundDoubleToTwoDecimals(percentDifference);
+
     }
 
-    private double showNegativePercentDifference(double percentDifference) {
-        percentDifference = percentDifference * -1;
-        return percentDifference;
-    }
-
-    private boolean isCurrentStockPriceLowerThanYesterdayClose(double stock1, double stock2) {
-        return stock2 > stock1;
-    }
 
     public void setCurrentStockPrice(double stockPrice) {
         currentStockQuote.setPrice(BigDecimal.valueOf(stockPrice));
