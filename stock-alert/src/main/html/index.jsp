@@ -1,22 +1,34 @@
 <%@ page import="com.team2.stockalert.StockAlert" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<%StockAlert stock = new StockAlert();
+ stock.setCurrentStockPrice(0.0);
+ String currentTime = stock.getCurrentTime();
+ double stockQuote = stock.getStockQuoteNow();
+ double percent = stock.getPercentageDifference(stock.getStockQuoteNow(), stock.getStockQuoteYesterday());
+ %>
 <head>
     <title>This is a local liberty server</title>
   </head>
-<body>
-<% response.setIntHeader("Refresh", 300); %>
+ <% if(!stock.isAlarmSet()) { %>
+    <body style="background-color:white;">
+    <embed src="money.mp3" autostart="true" loop="true" hidden="true">
+ <% }else {%>
+    <body style="background-color:red;">
+    <embed src="alarm.mp3" autostart="true" loop="true" hidden="true">
+<% } response.setIntHeader("Refresh", 300); %>
 
-<table border="0">
+
+<table align="center" border="0">
     <tr>
         <th><b>Time</b></th>
         <th><b>MSFT Stock Value</b></th>
         <th><b>Difference</b></th>
     </tr>
     <tr>
-        <td><% out.print(StockAlert.getCurrentTime()); %></td>
-        <td><% out.print(StockAlert.getStockQuoteNow()); %></td>
-        <td>0.00%</td>
+        <td align="center"><% out.print(currentTime); %></td>
+        <td align="center"><% out.print(stockQuote); %></td>
+        <td align="center"><% out.print(percent + "%"); %></td>
     </tr>
 </table>
 </body>
