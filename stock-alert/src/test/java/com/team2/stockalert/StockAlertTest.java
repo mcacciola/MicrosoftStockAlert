@@ -33,16 +33,26 @@ public class StockAlertTest {
     }
 
     @Test
-    public void percentChangeCalculationTest() throws IOException {
-        assertEquals(40.0, stockAlert.getPercentageDifference(50.0, 75.0), .1);
+    public void negativePercentChangeCalculationTest() throws IOException {
+        assertEquals(-40.0, stockAlert.getPercentageDifference(50.0, 75.0), .1);
     }
 
     @Test
-    public void stockAlertsTraderIfAbove20Percent() throws IOException {
-        stockAlert.setCurrentStockPrice(500.00);
+    public void positivePercentChangeCalculationTest() throws IOException {
+        assertEquals(40.0, stockAlert.getPercentageDifference(75.0, 50.0), .1);
+    }
+
+    @Test
+    public void stockDoesNotAlertTraderIfAboveNegative20Percent() throws IOException {
+        stockAlert.setCurrentStockPrice(50.00);
+        stockAlert.getStockQuoteNow();
+        assertFalse(stockAlert.isAlarmSet());
+    }
+
+    @Test
+    public void stockAlertsTraderIfBelowNegative20Percent() throws IOException {
+        stockAlert.setCurrentStockPrice(0.00);
         stockAlert.getStockQuoteNow();
         assertTrue(stockAlert.isAlarmSet());
     }
-
-
 }

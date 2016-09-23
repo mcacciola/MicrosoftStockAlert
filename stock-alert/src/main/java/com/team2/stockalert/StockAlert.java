@@ -34,7 +34,10 @@ public class StockAlert {
 
     public double getStockQuoteNow() throws IOException {
         double price = getCurrentStockPrice();
-        setAlarmIfPercentDifferenceGreaterThan20(price);
+        setAlarmIfPercentDifferenceLessThanNegative19(price);
+        if(alarmSet){
+            //playAlarm();
+        }
         return price;
     }
 
@@ -42,8 +45,8 @@ public class StockAlert {
         return roundDoubleToTwoDecimals(currentStockQuote.getPrice().doubleValue());
     }
 
-    private void setAlarmIfPercentDifferenceGreaterThan20(double price) throws IOException {
-        if (getPercentageDifference(price, getStockQuoteYesterday()) > 20.0) {
+    private void setAlarmIfPercentDifferenceLessThanNegative19(double price) throws IOException {
+        if (getPercentageDifference(price, getStockQuoteYesterday()) <= -20.0) {
             alarmSet = true;
         }
     }
@@ -69,7 +72,19 @@ public class StockAlert {
 
     public double getPercentageDifference(double stock1, double stock2) {
         double percentDifference = Math.abs(stock1 - stock2) / ( (stock1 + stock2) /2 ) * 100;
+        if(isCurrentStockPriceLowerThanYesterdayClose(stock1, stock2)){
+            percentDifference = showNegativePercentDifference(percentDifference);
+        }
         return roundDoubleToTwoDecimals(percentDifference);
+    }
+
+    private double showNegativePercentDifference(double percentDifference) {
+        percentDifference = percentDifference * -1;
+        return percentDifference;
+    }
+
+    private boolean isCurrentStockPriceLowerThanYesterdayClose(double stock1, double stock2) {
+        return stock2 > stock1;
     }
 
     public void setCurrentStockPrice(double stockPrice) {
@@ -104,4 +119,8 @@ public class StockAlert {
         return new BigDecimal(percentDifference).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
+//    private void playAlarm() {
+//        Clip clip = AudioSystem.getClip();
+//        AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream())
+//    }
 }
