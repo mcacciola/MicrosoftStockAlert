@@ -49,13 +49,13 @@ public class StockAlert {
 
     private String buildValueAfterDecimalRounded2(String number) {
         String postDecimalValue = number;
-        if(isCentValueLength1(number)){
+        if(isPostDecimalValueLength1(number)){
             postDecimalValue += "0";
         }
         return postDecimalValue;
     }
 
-    private boolean isCentValueLength1(String centValue) {
+    private boolean isPostDecimalValueLength1(String centValue) {
         return centValue.length() == 1;
     }
 
@@ -71,8 +71,8 @@ public class StockAlert {
 
     public double getStockQuoteYesterday() throws IOException {
         Calendar yesterday = getYesterday();
-        List<HistoricalQuote>  quoteList = getYesterdaysQuoteList(yesterday);
-        return roundDoubleToTwoDecimals(getYesterdaysPrice(quoteList));
+        List<HistoricalQuote>  yesterdaysQuoteList = getYesterdaysQuoteList(yesterday);
+        return roundDoubleToTwoDecimals(getYesterdaysPrice(yesterdaysQuoteList));
     }
 
     private List<HistoricalQuote> getYesterdaysQuoteList(Calendar yesterday) throws IOException {
